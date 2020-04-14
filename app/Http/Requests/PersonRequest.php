@@ -25,7 +25,7 @@ class PersonRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|max:32',
-            'url' => 'required|max:255',
+            'url' => 'required|max:255|url',
             'gender' => 'required|max:6'
         ];
     }

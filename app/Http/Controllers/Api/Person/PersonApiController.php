@@ -70,17 +70,24 @@ class PersonApiController extends Controller
             ], 400);
         }
 
-        $updated = $person->fill($request->all())->save();
-
-        if ($updated) {
+        if (is_null($person->died)) {
             return response()->json([
-                'success' => true
-            ]);
-        } else {
+                'success' => false,
+                'message' => 'Sorry, you can only update persons who have died'
+            ], 403);
+        }
+
+        try {
+            $person->fill($request->all())->save();
+        } catch (\Exception $ex) {
             return response()->json([
                 'success' => false,
                 'message' => 'Sorry, person could not be updated'
             ], 500);
         }
+
+        return response()->json([
+            'success' => true
+        ], 200);
     }
 }

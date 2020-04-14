@@ -20,7 +20,7 @@ class Person extends Migration
             $table->string('gender', 6);
             $table->string('culture', 64)->nullable();
             $table->string('born', 128)->nullable();
-            $table->string('died', 64)->nullable();
+            $table->string('died', 128)->nullable();
             $table->json('titles');
             $table->json('aliases');
             $table->string('father')->nullable();
@@ -31,6 +31,9 @@ class Person extends Migration
             $table->json('povBooks');
             $table->json('tvSeries');
             $table->json('playedBy');
+            $table->string('planet')->nullable();
+            $table->string('type')->nullable();
+            $table->json('usedVehicles')->default('[]');;
 
             $table->timestamps();
         });
