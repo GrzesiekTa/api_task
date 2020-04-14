@@ -21,4 +21,13 @@ class Person extends Model
     protected $fillable = [
         'url', 'name', 'gender', 'culture', 'born', 'died', 'titles', 'aliases', 'father', 'mother', 'spouse', 'allegiances', 'books', 'povBooks', 'tvSeries', 'playedBy', 'created_at'
     ];
+    protected $casts = [
+        'titles' => 'json',
+        'aliases' => 'json',
+        'allegiances' => 'json',
+        'books' => 'json',
+        'povBooks' => 'json',
+        'tvSeries' => 'json',
+        'playedBy' => 'json',
+    ];
 }
