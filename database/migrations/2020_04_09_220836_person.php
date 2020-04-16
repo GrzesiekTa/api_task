@@ -14,28 +14,29 @@ class Person extends Migration
     public function up()
     {
         Schema::create('person', function (Blueprint $table) {
-            $table->id();
-            $table->string('url');
+            $table->increments('id');
             $table->string('name', 32);
+            $table->string('url', 255);
             $table->string('gender', 6);
             $table->string('culture', 64)->nullable();
             $table->string('born', 128)->nullable();
             $table->string('died', 128)->nullable();
             $table->json('titles');
             $table->json('aliases');
-            $table->string('father')->nullable();
-            $table->string('mother')->nullable();
-            $table->string('spouse')->nullable();
+            $table->string('father', 255)->nullable();
+            $table->string('mother', 255)->nullable();
+            $table->string('spouse', 255)->nullable();
             $table->json('allegiances');
             $table->json('books');
             $table->json('povBooks');
             $table->json('tvSeries');
             $table->json('playedBy');
-            $table->string('planet')->nullable();
-            $table->string('type')->nullable();
-            $table->json('usedVehicles')->default('[]');;
 
-            $table->timestamps();
+            $table->unsignedInteger('planetId');
+            $table->foreign('planetId')->references('id')->on('planet');
+
+            $table->unsignedInteger('typeId');
+            $table->foreign('typeId')->references('id')->on('type');
         });
     }
 

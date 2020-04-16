@@ -25,8 +25,10 @@ class PersonRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|max:32',
-            'url' => 'required|max:255|url',
-            'gender' => 'required|max:6'
+            'gender' => 'required|in:Female,Male',
+            'culture' => 'min:3|max:64',
+            'died' => 'required|min:3|max:128',
+            'born' => 'min:3|max:128'
         ];
     }
 }

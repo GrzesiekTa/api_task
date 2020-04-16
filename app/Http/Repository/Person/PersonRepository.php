@@ -45,9 +45,10 @@ class PersonRepository
         ?string $name,
         ?string $culture,
         ?array $initialLettersInNamesToRejected,
+        array $selectedFields,
         int $paginate
     ): LengthAwarePaginator {
-        $person = $this->model;
+        $person = $this->model->select(...$selectedFields);
 
         if ($gender) {
             $person = $person->where('gender', '=', $gender);

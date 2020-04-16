@@ -15,7 +15,6 @@ Vue.use(VueAxios, axios);
 
 import HomeComponent from './components/HomeComponent.vue';
 import ShowPersonComponent from './components/Person/ShowComponent.vue';
-import TestComponent from './components/TestComponent.vue';
 
 Vue.component('loading',{ template: '<div class="load-container start-load-container"><div class="top-50"><div class="loadersmall"></div></div></div>'})
 
@@ -31,9 +30,11 @@ const routes = [
     component: ShowPersonComponent
   },
   {
-    name: 'test',
-    path: '/test',
-    component: TestComponent
+    name: '404',
+    path: '/404',
+    component: {
+      template: '<p>Page Not Found</p>'
+    }
   }
 ];
 
@@ -52,5 +53,5 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to, from, next) => {
-  setTimeout(() => app.loading = false, 300);
+  setTimeout(() => app.loading = false, 250);
 });

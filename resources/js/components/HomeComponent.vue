@@ -17,8 +17,9 @@
       <div class="col-md-2">
         <label for="gender">Płeć:</label>
         <select id="gender" class="form-control" v-model="gender">
-          <option valeu="Female">Female</option>
-          <option valeu="Male">Male</option>
+          <option></option>
+          <option value="Female">Female</option>
+          <option value="Male">Male</option>
         </select>
       </div>
       <div class="col-md-4">
@@ -26,7 +27,7 @@
         <input type="submit" @click="getResults" class="btn btn-info" value="Filtruj" />
       </div>
     </div>
-    <br />
+    <h6 v-if="personsData.total">Znaleziono: {{personsData.total}}</h6>
     <table class="table table-dark table-hover">
       <thead>
         <tr>
@@ -46,7 +47,11 @@
           <td>{{ person.name }}</td>
           <td>{{ person.culture }}</td>
           <td>{{ person.born }}</td>
-          <td>{{ person.url }}</td>
+          <td>
+            <div v-show="person.url">
+              <a target="_blank" :href="person.url">link</a>
+            </div>
+          </td>
           <td>{{ person.gender }}</td>
           <td>
             <div v-for="title in person.titles">

@@ -3,9 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Planet;
+use App\Type;
+use App\Vehicle;
 
 class Person extends Model
 {
+    /**
+     * @var bool
+     */
+    public $timestamps = false;
     /**
      * table name
      *
@@ -19,7 +26,7 @@ class Person extends Model
      * @var array
      */
     protected $fillable = [
-        'url', 'name', 'gender', 'culture', 'born', 'died', 'titles', 'aliases', 'father', 'mother', 'spouse', 'allegiances', 'books', 'povBooks', 'tvSeries', 'playedBy', 'created_at'
+        'name', 'gender', 'culture', 'born', 'died'
     ];
     /**
      * The attributes that should be cast.
@@ -34,6 +41,31 @@ class Person extends Model
         'povBooks' => 'json',
         'tvSeries' => 'json',
         'playedBy' => 'json',
-        'usedVehicles' => 'json',
     ];
+
+    /**
+     * person has/belongs to one planet
+     */
+    public function planet()
+    {
+        return $this->belongsTo(Planet::class, 'planetId');
+    }
+
+    /**
+     * person has/belongs to one type
+     */
+    public function type()
+    {
+        return $this->belongsTo(Type::class, 'typeId');
+    }
+
+    /**
+     * Many to Many relation
+     *
+     * @return Illuminate\Database\Eloquent\Relations\belongToMany
+     */
+    public function vehicles()
+    {
+        return $this->belongsToMany(Vehicle::class, 'person_vehicle', 'personId', 'vehicleId');
+    }
 }

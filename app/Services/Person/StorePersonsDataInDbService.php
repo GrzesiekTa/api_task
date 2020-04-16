@@ -4,6 +4,8 @@ namespace App\Services\Person;
 
 use App\Http\Repository\Person\PersonRepository;
 use App\Utils\ArrayModifier;
+use App\Planet;
+use App\Type;
 
 class StorePersonsDataInDbService
 {
@@ -36,6 +38,19 @@ class StorePersonsDataInDbService
     {
         $personsData = $this->getPersonsDataService->getData($amountOfGetData);
         $modifiedDataArray = ArrayModifier::replaceEmptyArrayKeysToValue($personsData);
+
+        $planetsIds = Planet::pluck('id')->toArray();
+        $typesIds = Type::pluck('id')->toArray();
+
+        if (empty($planetsIds) || empty($typesIds)) {
+            throw new \Exception('planets and types cannot be empty');
+        }
+
+        //adding random planet and type
+        foreach ($modifiedDataArray as $key => $single) {
+            $modifiedDataArray[$key]['planetId'] = $planetsIds[array_rand($planetsIds, 1)];
+            $modifiedDataArray[$key]['typeId'] = $typesIds[array_rand($typesIds, 1)];
+        }
 
         $this->personRepository->insertMany($modifiedDataArray);
 

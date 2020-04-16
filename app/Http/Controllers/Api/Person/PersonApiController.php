@@ -23,31 +23,32 @@ class PersonApiController extends Controller
     {
         $initialLettersInNamesToRejected = ['B', 'D', 'Q'];
 
-        $data =  response()->json($personRepository->findByMultiParameters(
+        return response()->json($personRepository->findByMultiParameters(
             $request->gender,
             $request->name,
             $request->culture,
             $initialLettersInNamesToRejected,
+            ['id', 'name', 'culture', 'born', 'url', 'gender', 'titles'],
             10
         ));
-
-        return $data;
     }
 
     /**
      * show action
      *
-     * @param Person $person
+     * @param int $id
      * 
      * @return JsonResponse
      */
-    public function show(Person $person): JsonResponse
+    public function show(int $id): JsonResponse
     {
+        $person = Person::with('planet')->with('type')->with('vehicles')->find($id);
+
         if (!$person) {
             return response()->json([
                 'success' => false,
                 'message' => 'Sorry, person cannot be found'
-            ], 400);
+            ], 404);
         }
 
         return response()->json($person);
@@ -67,10 +68,10 @@ class PersonApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Sorry, person cannot be found'
-            ], 400);
+            ], 404);
         }
 
-        if (is_null($person->died)) {
+        if (is_null($person->died) || (trim($person->died) === '')) {
             return response()->json([
                 'success' => false,
                 'message' => 'Sorry, you can only update persons who have died'
